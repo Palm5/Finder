@@ -49,7 +49,8 @@ foreach($dir as $token)
             }
             foreach($folders as $folder)
             {
-                $newpath = $path.'/'.$folder;
+                $newtmp = $path.'/'.$folder;
+                $newpath = realpath(str_replace('//', '/', $newtmp));
                 if($folder == ".."){
                     echo '<a href = "/Finder/index.php?path='.urlencode($newpath).'"> <-- </a>' . '</br>';
                 } else {
@@ -62,11 +63,13 @@ foreach($dir as $token)
             if (isset($files)){
                 foreach($files as $file)
                 {
-                    $newpath = $path.'/'.$file;
+                    $newtmp = $path.'/'.$file;
+                    $newpath = urlencode(realpath(str_replace('//','/', $newtmp)));
+                
                     /*if(stristr($file, ".sys")){
                         continue;
                     }*/
-                    echo '<a href = "backend/fileHandler.php?file='.$file.'">'.$file.'</a></br>';
+                    echo '<a href = "backend/fileHandler.php?file='.$newpath.'">'.$file.'</a></br>';
                 }
             }
         ?>
