@@ -5,15 +5,22 @@ $user_os        = getOS();
 $user_browser   = getBrowser();
 $os_family      = OSFamily($user_os);
 
-if($os_family = "Windows"){
-    $path="C:/";
-} else {
-    $path="/";
-}
+$path="/";
 if(isset($_GET["path"])){
     $path = urldecode($_GET["path"]);
 }
-$dir = scandir($path);
+if(is_dir($path)&&is_readable($path)){
+    $dir = scandir($path);
+} else {
+    if(stristr($_SERVER['HTTP_REFERER'], "path=") and !stristr($_SERVER['HTTP_REFERER'], "error=")){
+        header("Location: {$_SERVER['HTTP_REFERER']}&error=privilegi");
+    }elseif(stristr($_SERVER['HTTP_REFERER'], "error=")){
+        header("Location: {$_SERVER['HTTP_REFERER']}");
+    }
+     else {
+        header("Location: {$_SERVER['HTTP_REFERER']}?error=privilegi");
+    }
+}
 foreach($dir as $token)
 {
     if($token != ".")
@@ -37,6 +44,9 @@ foreach($dir as $token)
     </head>
     <body>
         <?php
+            if(isset($_GET["error"])&&$_GET["error"]=="privilegi"){
+                echo "<p>Non hai i privilegi necessari per accedere alla cartella selezionata.</p>";
+            }
             foreach($folders as $folder)
             {
                 $newpath = $path.'/'.$folder;
