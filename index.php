@@ -28,13 +28,34 @@ foreach($dir as $token)
         }
     }
 }
-foreach($folders as $folder)
-{
-    $newpath = $path.'/'.$folder;
-    echo '<a href = "/Finder/index.php?path='.urlencode($newpath).'"> [ '.$folder.' ] </a>' . '</br>';
-}
-foreach($files as $file)
-{
-    $newpath = $path.'/'.$file;
-    echo '<a href = "backend/fileHandler.php?file='.$file.'">'.$file.'</a></br>';
-}
+?>
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    </head>
+    <body>
+        <?php
+            foreach($folders as $folder)
+            {
+                $newpath = $path.'/'.$folder;
+                if($folder == ".."){
+                    echo '<a href = "/Finder/index.php?path='.urlencode($newpath).'"> <-- </a>' . '</br>';
+                } else {
+                    echo '<a href = "/Finder/index.php?path='.urlencode($newpath).'"> [ '.$folder.' ] </a>' . '</br>';
+                }
+            }
+            if (isset($files)){
+                foreach($files as $file)
+                {
+                    $newpath = $path.'/'.$file;
+                    if(stristr($file, ".sys")){
+                        continue;
+                    }
+                    echo '<a href = "backend/fileHandler.php?file='.$file.'">'.$file.'</a></br>';
+                }
+            }
+        ?>
+    </body>
+</html>
