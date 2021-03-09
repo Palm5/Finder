@@ -37,11 +37,10 @@ foreach($dir as $token)
 }
 ?>
 <!doctype html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    </head>
+<html lang="en">
+    <?php
+        include_once "backend/head.php";
+    ?>
     <body>
         <?php
             if(isset($_GET["error"])&&$_GET["error"]=="privilegi"){
@@ -72,6 +71,9 @@ foreach($dir as $token)
                     echo '<a href = "backend/fileHandler.php?file='.$newpath.'">'.$file.'</a></br>';
                 }
             }
+        ?>
+        <?php
+            include_once "backend/footer.php";
         ?>
     </body>
 </html>
